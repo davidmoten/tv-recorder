@@ -1,10 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-        <groupId>com.github.davidmoten</groupId>
+	<parent>
+	    <groupId>com.github.davidmoten</groupId>
+	    <artifactId>tv-recorder-parent</artifactId>
+	    <version>0.1-SNAPSHOT</version>
+	</parent>
 	<artifactId>xmltv-jaxb</artifactId>
-        <version>0.1-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<description>Jaxb generated classes from xmltv xsd</description>
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -15,6 +22,15 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>${maven.compiler.target}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxb2-maven-plugin</artifactId>
@@ -28,10 +44,10 @@
 				</executions>
 				<configuration>
 					<packageName>com.github.davidmoten.xmltv</packageName>
-                                        <sourceType>dtd</sourceType>
-                                        <sources>
-                                            <source>src/main/resources</source>
-                                        </sources>
+					<sourceType>dtd</sourceType>
+					<sources>
+						<source>src/main/dtd</source>
+					</sources>
 				</configuration>
 			</plugin>
 			<plugin>
