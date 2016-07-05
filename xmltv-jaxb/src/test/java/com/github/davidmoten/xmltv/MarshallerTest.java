@@ -20,8 +20,8 @@ public class MarshallerTest {
 				Tv.class);
 		System.out.println(tv.getValue().programme.size());
 		Tv t = tv.getValue();
-		t.getProgramme().stream().forEach(p -> System.out.println( p.getChannel() + ": "
- + getTitle(p)));
+		t.getProgramme().stream().forEach(
+				p -> System.out.println(p.getChannel() + ": " + getTitle(p) + " " + p.getStart() + "-"));
 	}
 
 	private String getTitle(Programme p) {
