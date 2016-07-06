@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
-public class Converter {
+public class JsonConverter {
 
 	public String toJson(Object o) {
 		ObjectMapper mapper = new ObjectMapper();

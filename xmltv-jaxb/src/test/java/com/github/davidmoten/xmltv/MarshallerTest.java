@@ -51,7 +51,7 @@ public class MarshallerTest {
     
     @Test
     public void produceJson(){
-    	System.out.println(new Converter().toJson(tv().getProgramme().get(0)));
+    	System.out.println(new JsonConverter().toJson(tv().getProgramme().get(0)));
     }
 
 }

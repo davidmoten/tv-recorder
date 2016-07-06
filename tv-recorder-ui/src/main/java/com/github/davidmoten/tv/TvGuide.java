@@ -1,19 +1,15 @@
-package org.me.controller;
+package com.github.davidmoten.tv;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
-import org.springframework.stereotype.Service;
-
-import com.github.davidmoten.xmltv.MarshallerTest;
 import com.github.davidmoten.xmltv.Tv;
 
-@Service
-public class TvGuideService {
+public class TvGuide {
 
-    public Tv get() {
+    Tv get() {
         return tv();
     }
 
@@ -21,8 +17,7 @@ public class TvGuideService {
         try {
             final JAXBContext context = JAXBContext.newInstance(Tv.class);
             final Unmarshaller u = context.createUnmarshaller();
-            return u.unmarshal(
-                    new StreamSource(MarshallerTest.class.getResourceAsStream("/sample.xml")),
+            return u.unmarshal(new StreamSource(TvGuide.class.getResourceAsStream("/sample.xml")),
                     Tv.class).getValue();
         } catch (JAXBException e) {
             throw new RuntimeException(e);
