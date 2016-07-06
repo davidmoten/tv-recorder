@@ -48,5 +48,10 @@ public class MarshallerTest {
         tv.getProgramme().stream().map(p -> p.getChannel()).distinct().sorted()
                 .forEach(System.out::println);
     }
+    
+    @Test
+    public void produceJson(){
+    	System.out.println(new Converter().toJson(tv().getProgramme().get(0)));
+    }
 
 }
