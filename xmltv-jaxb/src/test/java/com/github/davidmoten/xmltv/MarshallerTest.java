@@ -15,8 +15,9 @@ public class MarshallerTest {
     public void test() throws JAXBException {
         Tv tv = tv();
         System.out.println(tv.programme.size());
-        tv.getProgramme().stream().forEach(p -> System.out
-                .println(p.getChannel() + ": " + getTitle(p) + " " + p.getStart() + "-"));
+        // tv.getProgramme().stream().forEach(p -> System.out
+        // .println(p.getChannel() + ": " + getTitle(p) + " " + p.getStart() +
+        // "-"));
     }
 
     private static Tv tv() {
@@ -36,22 +37,15 @@ public class MarshallerTest {
     }
 
     @Test
-    public void testHtml() {
-        Tv tv = tv();
-        tv.getProgramme().stream().filter(p -> p.getChannel().toUpperCase().contains("SBS"))
-                .forEach(System.out::println);
-    }
-
-    @Test
     public void testHtmlChannel() {
         Tv tv = tv();
         tv.getProgramme().stream().map(p -> p.getChannel()).distinct().sorted()
                 .forEach(System.out::println);
     }
-    
+
     @Test
-    public void produceJson(){
-    	System.out.println(new JsonConverter().toJson(tv().getProgramme().get(0)));
+    public void produceJson() {
+        System.out.println(new JsonConverter().toJson(tv().getProgramme().get(0)));
     }
 
 }
