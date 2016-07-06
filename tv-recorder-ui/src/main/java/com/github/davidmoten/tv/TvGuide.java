@@ -61,6 +61,9 @@ public class TvGuide {
         for (Keyword t : p.getKeyword()) {
             add(s, t.getvalue());
         }
+        if (p.getLanguage() != null) {
+            add(s, p.getLanguage().getvalue());
+        }
         if (p.getCredits() != null)
             for (Actor t : p.getCredits().getActor()) {
                 add(s, t.getvalue());

@@ -1,0 +1,8 @@
+.title {
+  font-weight:bold;
+  display: inline-block;
+}
+.subTitle {
+  font-weight:italic;
+  display: inline-block;
+}

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.github.davidmoten.xmltv.Desc;
 import com.github.davidmoten.xmltv.Programme;
+import com.github.davidmoten.xmltv.SubTitle;
 import com.github.davidmoten.xmltv.Title;
 
 public class SearchServlet extends HttpServlet {
@@ -28,7 +29,8 @@ public class SearchServlet extends HttpServlet {
         String search = req.getParameter("q");
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
-        out.println("<html><head><title>Results</title></head><body>");
+        out.println(
+                "<html><head><link rel=\"stylesheet\" href=\"css/style.css\"/><title>Results</title></head><body>");
         guide.search(search).sorted((a, b) -> a.getStart().compareTo(b.getStart()))
                 .map(p -> toHtml(p)).forEach(s -> out.println(s));
         out.println("</body></html>");
@@ -37,21 +39,30 @@ public class SearchServlet extends HttpServlet {
 
     private String toHtml(Programme p) {
         StringBuilder s = new StringBuilder();
-        s.append("<p>");
+        s.append("<div class='time'>");
         s.append(formatTime(p.getStart()));
         s.append(" ");
         s.append(p.getChannel());
         s.append(" ");
         for (Title t : p.getTitle()) {
-            s.append("<b>");
+            s.append("<div class='title'>");
             s.append(t.getvalue());
-            s.append("</b>");
+            s.append("</div>");
         }
-        s.append("</p>");
+        s.append(" ");
+        for (SubTitle t : p.getSubTitle()) {
+            s.append("<div class='subTitle'>");
+            s.append(t.getvalue());
+            s.append("</div>");
+        }
+        s.append("</div>");
+
         for (Desc d : p.getDesc()) {
-            s.append("<p>");
-            s.append(d.getvalue());
-            s.append("</p>");
+            if (!d.getvalue().contains("Please donate")) {
+                s.append("<p>");
+                s.append(d.getvalue());
+                s.append("</p>");
+            }
         }
         if (!p.getCategory().isEmpty()) {
             s.append("<p>");
@@ -64,6 +75,27 @@ public class SearchServlet extends HttpServlet {
             s.append("<p>");
             s.append("Keywords: ");
             s.append(p.getKeyword().stream().map(c -> c.getvalue())
+                    .collect(Collectors.joining(", ")));
+            s.append("</p>");
+        }
+        if (!p.getRating().isEmpty()) {
+            s.append("<p>");
+            s.append("Ratings: ");
+            s.append(p.getRating().stream().map(c -> c.getValue())
+                    .collect(Collectors.joining(", ")));
+            s.append("</p>");
+        }
+        if (!p.getCountry().isEmpty()) {
+            s.append("<p>");
+            s.append("Country: ");
+            s.append(p.getCountry().stream().map(c -> c.getvalue())
+                    .collect(Collectors.joining(", ")));
+            s.append("</p>");
+        }
+        if (p.getCredits() != null) {
+            s.append("<p>");
+            s.append("Actors: ");
+            s.append(p.getCredits().getActor().stream().map(c -> c.getvalue())
                     .collect(Collectors.joining(", ")));
             s.append("</p>");
         }
