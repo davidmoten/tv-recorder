@@ -1,4 +1,5 @@
 .time {
+  margin-top: 1em;
   display: inline-block;
 }
 .channel {
@@ -10,5 +11,17 @@
 }
 .subTitle {
   font-weight:italic;
+  display: inline-block;
+}
+.afterHeader {
+  display:clear;
+}
+.description {
+  margin-left:2em;
+}
+.label {
+  margin-left: 2em;
+}
+.detail {
   display: inline-block;
 }

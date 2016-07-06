@@ -59,48 +59,59 @@ public class SearchServlet extends HttpServlet {
             s.append("</div>");
         }
         s.append("</div>");
+        s.append("<div class='afterHeader'></div>");
 
         for (Desc d : p.getDesc()) {
             if (!d.getvalue().contains("Please donate")) {
-                s.append("<p>");
+                s.append("<div class='description'>");
                 s.append(d.getvalue());
-                s.append("</p>");
+                s.append("</div>");
             }
         }
         if (!p.getCategory().isEmpty()) {
-            s.append("<p>");
+            s.append("<div class='label'>");
             s.append("Categories: ");
+            s.append("</div>");
+            s.append("<div class='detail'>");
             s.append(p.getCategory().stream().map(c -> c.getvalue())
                     .collect(Collectors.joining(", ")));
-            s.append("</p>");
+            s.append("</div>");
         }
         if (!p.getKeyword().isEmpty()) {
-            s.append("<p>");
+            s.append("<div class='label'>");
             s.append("Keywords: ");
+            s.append("</div>");
+            s.append("<div class='detail'>");
             s.append(p.getKeyword().stream().map(c -> c.getvalue())
                     .collect(Collectors.joining(", ")));
-            s.append("</p>");
+            s.append("</div>");
         }
         if (!p.getRating().isEmpty()) {
-            s.append("<p>");
+            s.append("<div class='label'>");
             s.append("Ratings: ");
+            s.append("</div>");
+            s.append("<div class='detail'>");
             s.append(p.getRating().stream().map(c -> c.getValue())
                     .collect(Collectors.joining(", ")));
-            s.append("</p>");
+            s.append("</div>");
         }
         if (!p.getCountry().isEmpty()) {
-            s.append("<p>");
+            s.append("<div class='label'>");
             s.append("Country: ");
+            s.append("</div>");
+            s.append("<div class='detail'>");
             s.append(p.getCountry().stream().map(c -> c.getvalue())
                     .collect(Collectors.joining(", ")));
-            s.append("</p>");
+            s.append("</div>");
         }
         if (p.getCredits() != null) {
-            s.append("<p>");
+            s.append("<div class='label'>");
             s.append("Actors: ");
+            s.append("</div>");
+            s.append("<div class='detail'>");
             s.append(p.getCredits().getActor().stream().map(c -> c.getvalue())
                     .collect(Collectors.joining(", ")));
-            s.append("</p>");
+            s.append("</div>");
         }
         return s.toString();
     }
