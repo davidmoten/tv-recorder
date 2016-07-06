@@ -11,5 +11,6 @@
 	</properties>
         <modules>
 	    <module>xmltv-jaxb</module>
+            <module>tv-recorder-ui</module>
 	</modules>
 </project>
