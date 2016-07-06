@@ -41,8 +41,11 @@ public class SearchServlet extends HttpServlet {
         StringBuilder s = new StringBuilder();
         s.append("<div class='time'>");
         s.append(formatTime(p.getStart()));
+        s.append("</div>");
+        s.append("<div class='channel'>");
         s.append(" ");
         s.append(p.getChannel());
+        s.append("</div>");
         s.append(" ");
         for (Title t : p.getTitle()) {
             s.append("<div class='title'>");

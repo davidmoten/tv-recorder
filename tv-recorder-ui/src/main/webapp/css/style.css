@@ -1,3 +1,9 @@
+.time {
+  display: inline-block;
+}
+.channel {
+  display: inline-block;
+}  
 .title {
   font-weight:bold;
   display: inline-block;
