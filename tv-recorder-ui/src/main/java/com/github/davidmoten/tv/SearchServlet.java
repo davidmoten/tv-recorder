@@ -29,6 +29,8 @@ public class SearchServlet extends HttpServlet {
 		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
 		out.println("<html><head><link rel=\"stylesheet\" href=\"css/style.css\"/><title>Results</title></head><body>");
+		out.println("<form method=\"get\" action=\"search\"><input type=\"text\" class='search' name=\"q\" value=\"" + search
+				+ "\"><input type=\"submit\" value=\"Search\"></form>");
 		guide.search(search).sorted((a, b) -> a.getStart().compareTo(b.getStart())).map(p -> toHtml(p))
 				.forEach(s -> out.println(s));
 		out.println("</body></html>");
@@ -64,7 +66,7 @@ public class SearchServlet extends HttpServlet {
 				s.append("<div class='description'>");
 				s.append(d.getvalue());
 				String rating = p.getRating().stream().map(c -> c.getValue()).collect(Collectors.joining(", "));
-				if (rating.length()>0){
+				if (rating.length() > 0) {
 					s.append(" [" + rating + "]");
 				}
 				s.append("</div>");
