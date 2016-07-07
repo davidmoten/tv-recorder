@@ -1,7 +1,7 @@
 package com.github.davidmoten.tv;
 
 public final class Recording {
-	
+
 	public final String channel;
 	public final long start;
 	public final long finish;
@@ -11,8 +11,8 @@ public final class Recording {
 		this.start = start;
 		this.finish = finish;
 	}
-	
+
 	public boolean overlaps(Recording recording) {
-		return Math.max(start,  recording.start)< Math.min(finish, recording.finish);
+		return Math.max(start, recording.start) < Math.min(finish, recording.finish);
 	}
 }
