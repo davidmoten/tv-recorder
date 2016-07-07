@@ -1,16 +1,20 @@
 .time {
-  margin-top: 1em;
+  margin-top:1em;
+  margin-right:1em;
   display: inline-block;
 }
 .channel {
+  margin-right:1em;
   display: inline-block;
 }  
 .title {
+  margin-right:1em;
   font-weight:bold;
   display: inline-block;
 }
 .subTitle {
-  font-weight:italic;
+  margin-right:1em;
+  font-style:italic;
   display: inline-block;
 }
 .afterHeader {
@@ -18,10 +22,36 @@
 }
 .description {
   margin-left:2em;
+  max-width:35em;
 }
 .label {
+  margin-top:0.5em;
   margin-left: 2em;
+  font-weight: bold;
+  color: gray;
+  display: inline-block;
 }
 .detail {
+  margin-left:1em;
+  color:gray;
   display: inline-block;
+}
+.afterDetail {
+  display: clear;
+}
+
+.afterDetails {
+  display: clear;
+}
+.channel {
+    display: inline-block;
+    height: 32px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.6);
+    line-height: 32px;
+    padding: 0 12px;
+    border-radius: 16px;
+    background-color: #e4e4e4;
+    margin-right:1em;
 }

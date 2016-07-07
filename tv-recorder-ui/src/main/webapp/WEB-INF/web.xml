@@ -6,6 +6,17 @@
  
 	<display-name>tv-recorder</display-name>
 	
+	<servlet>
+     <servlet-name>Default</servlet-name>
+     <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
+     <init-param>
+       <param-name>useFileMappedBuffer</param-name>
+       <param-value>false</param-value>
+     </init-param>
+     <load-on-startup>0</load-on-startup>
+   </servlet>
+	
+	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
