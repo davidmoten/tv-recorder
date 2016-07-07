@@ -2,6 +2,8 @@ package com.github.davidmoten.tv;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -29,8 +31,8 @@ public class SearchServlet extends HttpServlet {
 		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
 		out.println("<html><head><link rel=\"stylesheet\" href=\"css/style.css\"/><title>Results</title></head><body>");
-		out.println("<form method=\"get\" action=\"search\"><input type=\"text\" class='search' name=\"q\" value=\"" + search
-				+ "\"><input type=\"submit\" value=\"Search\"></form>");
+		out.println("<form method=\"get\" action=\"search\"><input type=\"text\" class='search' name=\"q\" value=\""
+				+ search + "\"><input type=\"submit\" value=\"Search\"></form>");
 		guide.search(search).sorted((a, b) -> a.getStart().compareTo(b.getStart())).map(p -> toHtml(p))
 				.forEach(s -> out.println(s));
 		out.println("</body></html>");
@@ -99,8 +101,11 @@ public class SearchServlet extends HttpServlet {
 	}
 
 	private Object formatTime(String t) {
-		return t.substring(0, 4) + "/" + t.substring(4, 6) + "/" + t.substring(6, 8) + " " + t.substring(8, 10) + ":"
-				+ t.substring(10, 12);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
+		LocalDateTime dateTime = LocalDateTime.parse(t.substring(0, 12), formatter);
+		String[] days = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+		return days[dateTime.getDayOfWeek().getValue() - 1] + " " + t.substring(0, 2) + "/" + t.substring(4, 6) + "/"
+				+ t.substring(6, 8) + " " + t.substring(8, 10) + ":" + t.substring(10, 12);
 	}
 
 }
