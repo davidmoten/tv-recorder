@@ -36,7 +36,6 @@ public class SearchServlet extends HttpServlet {
 		guide.search(search).sorted((a, b) -> a.getStart().compareTo(b.getStart())).map(p -> toHtml(p))
 				.forEach(s -> out.println(s));
 		out.println("</body></html>");
-
 	}
 
 	private String toHtml(Programme p) {
@@ -67,7 +66,10 @@ public class SearchServlet extends HttpServlet {
 			if (!d.getvalue().contains("Please donate")) {
 				s.append("<div class='description'>");
 				s.append(d.getvalue());
-				String rating = p.getRating().stream().map(c -> c.getValue()).collect(Collectors.joining(", "));
+			    if (p.getDate()!=null) {
+			    	s.append(" "+ p.getDate());
+			    }
+				String rating = p.getStarRating().stream().map(c -> c.getValue()).collect(Collectors.joining(", "));
 				if (rating.length() > 0) {
 					s.append(" [" + rating + "]");
 				}
@@ -104,7 +106,7 @@ public class SearchServlet extends HttpServlet {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
 		LocalDateTime dateTime = LocalDateTime.parse(t.substring(0, 12), formatter);
 		String[] days = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
-		return days[dateTime.getDayOfWeek().getValue() - 1] + " " + t.substring(0, 2) + "/" + t.substring(4, 6) + "/"
+		return days[dateTime.getDayOfWeek().getValue() - 1] + " " + t.substring(0, 4) + "/" + t.substring(4, 6) + "/"
 				+ t.substring(6, 8) + " " + t.substring(8, 10) + ":" + t.substring(10, 12);
 	}
 
