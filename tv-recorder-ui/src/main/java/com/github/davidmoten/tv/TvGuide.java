@@ -1,11 +1,9 @@
 package com.github.davidmoten.tv;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
@@ -41,7 +39,12 @@ public class TvGuide {
 
 	public Stream<Programme> search(String search) {
 		return get().getProgramme().stream() //
-				.filter(p -> text(p).contains(search.toUpperCase())) //
+				.filter(p -> {
+					String t = text(p);
+					return Arrays.stream(search.split(" ")) //
+							.filter(x -> x.length() > 0) //
+							.allMatch(x -> t.contains(x.toUpperCase()));
+				}) //
 				.filter(p -> localDateTime(p.getStop()).isAfter(LocalDateTime.now()));
 	}
 
