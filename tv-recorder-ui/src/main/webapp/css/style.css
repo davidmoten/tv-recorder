@@ -21,6 +21,41 @@
   font-style:italic;
   display: inline-block;
 }
+.record {
+  display:inline-block;
+  background-color: #e4e4e4;
+  color:black;
+  height: 18px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  padding: 0 12px;
+  border-radius: 16px;
+}
+.cancel {
+  display:inline-block;
+  background-color: red;
+  color:white;
+  height: 18px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  padding: 0 12px;
+  border-radius: 16px;
+
+}
+.conflict {
+  display:inline-block;
+  background-color:yellow;
+  color: red;
+  height: 18px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  padding: 0 12px;
+  border-radius: 16px;
+
+}
 .afterHeader {
   display:clear;
 }
@@ -49,11 +84,11 @@
 }
 .channel {
     display: inline-block;
-    height: 32px;
+    height: 18px;
     font-size: 13px;
     font-weight: 500;
     color: rgba(0,0,0,0.6);
-    line-height: 32px;
+    line-height: 18px;
     padding: 0 12px;
     border-radius: 16px;
     background-color: #e4e4e4;

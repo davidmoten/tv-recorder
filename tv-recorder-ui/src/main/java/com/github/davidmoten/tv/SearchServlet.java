@@ -59,6 +59,9 @@ public class SearchServlet extends HttpServlet {
 			s.append(t.getvalue());
 			s.append("</div>");
 		}
+		s.append("<div class='record'>+</div>");
+		s.append("<div class='cancel'>-</div>");
+		s.append("<div class='conflict'>!</div>");
 		s.append("</div>");
 		s.append("<div class='afterHeader'></div>");
 
