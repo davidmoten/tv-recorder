@@ -2,6 +2,7 @@ package com.github.davidmoten.tv;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
@@ -43,6 +44,9 @@ public class SearchServlet extends HttpServlet {
 		s.append("<div class='time'>");
 		s.append(formatTime(p.getStart()));
 		s.append("</div>");
+		s.append("<div class='duration'>");
+		s.append(formatDuration(TvGuide.durationMinutes(p)));
+		s.append("</div>");
 		s.append("<div class='channel'>");
 		s.append(" ");
 		s.append(p.getChannel());
@@ -59,9 +63,17 @@ public class SearchServlet extends HttpServlet {
 			s.append(t.getvalue());
 			s.append("</div>");
 		}
-		s.append("<div class='record'>+</div>");
-		s.append("<div class='cancel'>-</div>");
-		s.append("<div class='conflict'>!</div>");
+		if (TvGuide.isPlaying(p)) {
+			s.append("<div class='playing'>P</div>");
+		}
+		if (!guide.markedForRecording(p)) {
+			s.append("<div class='record'>+</div>");
+		} else {
+			s.append("<div class='cancel'>-</div>");
+		}
+		if (guide.hasConflict(p)) {
+			s.append("<div class='conflict'>!</div>");
+		}
 		s.append("</div>");
 		s.append("<div class='afterHeader'></div>");
 
@@ -69,9 +81,9 @@ public class SearchServlet extends HttpServlet {
 			if (!d.getvalue().contains("Please donate")) {
 				s.append("<div class='description'>");
 				s.append(d.getvalue());
-			    if (p.getDate()!=null) {
-			    	s.append(" "+ p.getDate());
-			    }
+				if (p.getDate() != null) {
+					s.append(" " + p.getDate());
+				}
 				String rating = p.getStarRating().stream().map(c -> c.getValue()).collect(Collectors.joining(", "));
 				if (rating.length() > 0) {
 					s.append(" [" + rating + "]");
@@ -93,6 +105,13 @@ public class SearchServlet extends HttpServlet {
 					p.getCredits().getActor().stream().map(c -> c.getvalue()).collect(Collectors.joining(", ")));
 		}
 		return s.toString();
+	}
+
+	private String formatDuration(int minutes) {
+		int h = minutes / 60;
+		int m = minutes % 60;
+		DecimalFormat d = new DecimalFormat("00");
+		return h + ":" + d.format(m);
 	}
 
 	private static void label(StringBuilder s, String label, String value) {

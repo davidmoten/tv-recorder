@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
@@ -41,11 +42,16 @@ public class TvGuide {
 	public Stream<Programme> search(String search) {
 		return get().getProgramme().stream() //
 				.filter(p -> text(p).contains(search.toUpperCase())) //
-				.filter(p -> {
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
-					LocalDateTime dateTime = LocalDateTime.parse(p.getStop().substring(0, 12), formatter);
-					return dateTime.isAfter(LocalDateTime.now());
-				});
+				.filter(p -> localDateTime(p.getStop()).isAfter(LocalDateTime.now()));
+	}
+
+	private static LocalDateTime localDateTime(String dateTime) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
+		return LocalDateTime.parse(dateTime.substring(0, 12), formatter);
+	}
+
+	public static int durationMinutes(Programme p) {
+		return (int) ChronoUnit.MINUTES.between(localDateTime(p.getStart()), localDateTime(p.getStop()));
 	}
 
 	private static String text(Programme p) {
@@ -86,6 +92,19 @@ public class TvGuide {
 			s.append(string);
 			s.append(' ');
 		}
+	}
+
+	public static boolean isPlaying(Programme p) {
+		LocalDateTime now = LocalDateTime.now();
+		return localDateTime(p.getStart()).isBefore(now) && now.isBefore(localDateTime(p.getStop()));
+	}
+
+	public boolean markedForRecording(Programme p) {
+		return false;
+	}
+
+	public boolean hasConflict(Programme p) {
+		return false;
 	}
 
 }
