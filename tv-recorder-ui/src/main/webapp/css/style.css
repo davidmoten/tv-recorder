@@ -75,6 +75,7 @@
   display:clear;
 }
 .description {
+  margin-top: 0.5em;
   margin-left:2em;
   max-width:35em;
 }

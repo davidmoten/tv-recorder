@@ -10,7 +10,7 @@ public class ApplicationServletContextListener implements ServletContextListener
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         sce.getServletContext() //
-                .addServlet("search", new SearchServlet(new TvGuide())).addMapping("/search");
+                .addServlet("search", new SearchServlet(new TvGuide(), new Recordings())).addMapping("/search");
     }
 
     @Override

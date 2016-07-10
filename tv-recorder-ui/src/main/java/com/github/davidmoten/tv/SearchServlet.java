@@ -21,22 +21,39 @@ public class SearchServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -4914856137989997740L;
 	private final TvGuide guide;
+	private final Recordings recordings;
 
-	public SearchServlet(TvGuide tvGuide) {
+	public SearchServlet(TvGuide tvGuide, Recordings recordings) {
 		this.guide = tvGuide;
+		this.recordings = recordings;
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String action = req.getParameter("action");
+		if ("add".equals(action)) {
+			long start = Long.parseLong(req.getParameter("start"));
+			long finish = Long.parseLong(req.getParameter("finish"));
+			String channel = req.getParameter("channel");
+			String title = req.getParameter("title");
+			recordings.add(new Recording(channel, title, start, finish));
+		}
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String search = req.getParameter("q");
-		resp.setContentType("text/html");
-		PrintWriter out = resp.getWriter();
-		out.println("<html><head><link rel=\"stylesheet\" href=\"css/style.css\"/><title>Results</title></head><body>");
-		out.println("<form method=\"get\" action=\"search\"><input type=\"text\" class='search' name=\"q\" value=\""
-				+ search + "\"><input type=\"submit\" value=\"Search\"></form>");
-		guide.search(search).sorted((a, b) -> a.getStart().compareTo(b.getStart())).map(p -> toHtml(p))
-				.forEach(s -> out.println(s));
-		out.println("</body></html>");
+		if (search != null) {
+			resp.setContentType("text/html");
+			PrintWriter out = resp.getWriter();
+			out.println(
+					"<html><head><link rel=\"stylesheet\" href=\"css/style.css\"/><title>Results</title></head><body>");
+			out.println("<form method=\"get\" action=\"search\"><input type=\"text\" class='search' name=\"q\" value=\""
+					+ search + "\"><input type=\"submit\" value=\"Search\"></form>");
+			guide.search(search).sorted((a, b) -> a.getStart().compareTo(b.getStart())).map(p -> toHtml(p))
+					.forEach(s -> out.println(s));
+			out.println("</body></html>");
+		}
 	}
 
 	private String toHtml(Programme p) {
@@ -84,6 +101,10 @@ public class SearchServlet extends HttpServlet {
 				if (p.getDate() != null) {
 					s.append(" " + p.getDate());
 				}
+				String cls = p.getRating().stream().map(c -> c.getValue()).collect(Collectors.joining(", "));
+				if (cls.length() > 0) {
+					s.append(" [" + cls + "]");
+				}
 				String rating = p.getStarRating().stream().map(c -> c.getValue()).collect(Collectors.joining(", "));
 				if (rating.length() > 0) {
 					s.append(" [" + rating + "]");
@@ -124,7 +145,7 @@ public class SearchServlet extends HttpServlet {
 		s.append("<div class='afterDetail'></div>");
 	}
 
-	private Object formatTime(String t) {
+	private String formatTime(String t) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
 		LocalDateTime dateTime = LocalDateTime.parse(t.substring(0, 12), formatter);
 		String[] days = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
