@@ -103,7 +103,7 @@ public class SearchServlet extends HttpServlet {
 				}
 				String cls = p.getRating().stream().map(c -> c.getValue()).collect(Collectors.joining(", "));
 				if (cls.length() > 0) {
-					s.append(" [" + cls + "]");
+					s.append(" [<b>" + cls + "</b>]");
 				}
 				String rating = p.getStarRating().stream().map(c -> c.getValue()).collect(Collectors.joining(", "));
 				if (rating.length() > 0) {
