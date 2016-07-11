@@ -43,17 +43,23 @@ public class SearchServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String search = req.getParameter("q");
-		if (search != null) {
-			resp.setContentType("text/html");
-			PrintWriter out = resp.getWriter();
-			out.println(
-					"<html><head><link rel=\"stylesheet\" href=\"css/style.css\"/><title>Results</title></head><body>");
-			out.println("<form method=\"get\" action=\"search\"><input type=\"text\" class='search' name=\"q\" value=\""
-					+ search + "\"><input type=\"submit\" value=\"Search\"></form>");
-			guide.search(search).sorted((a, b) -> a.getStart().compareTo(b.getStart())).map(p -> toHtml(p))
-					.forEach(s -> out.println(s));
-			out.println("</body></html>");
-		}
+		resp.setContentType("text/html");
+		PrintWriter out = resp.getWriter();
+		out.println("<html><head><link rel=\"stylesheet\" href=\"css/style.css\"/><title>Results</title>"
+				+ "<script src=\"js/jquery-3.1.0.min.js\" integrity=\"sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=\" crossorigin=\"anonymous\"></script>"
+				+ "<script>\n"//
+				+ "function add(channel,start,stop,title) {\n" + "  var xhttp = new XMLHttpRequest();\n"
+				+ "  xhttp.onreadystatechange = function() {\n"
+				+ "    if (xhttp.readyState == 4 && xhttp.status == 200) {\n"
+				+ "      //document.getElementById(\"demo\").innerHTML = xhttp.responseText;\n" //
+				+ "    }\n" + "  };\n"
+				+ "  xhttp.open(\"POST\", \"add?channel=\"+channel+\"\", true);\n" + "  xhttp.send();\n" + "}"
+				+ "</script>\n" + "</head><body>");
+		out.println("<form method=\"get\" action=\"search\"><input type=\"text\" class='search' name=\"q\" value=\""
+				+ search + "\"><input type=\"submit\" value=\"Search\"></form>");
+		guide.search(search).sorted((a, b) -> a.getStart().compareTo(b.getStart())).map(p -> toHtml(p))
+				.forEach(s -> out.println(s));
+		out.println("</body></html>");
 	}
 
 	private String toHtml(Programme p) {
@@ -84,7 +90,7 @@ public class SearchServlet extends HttpServlet {
 			s.append("<div class='playing'>P</div>");
 		}
 		if (!guide.markedForRecording(p)) {
-			s.append("<div class='record'>+</div>");
+			s.append("<div class='record' onclick='add(\"" + p.getChannel() + "\")'>+</div>");
 		} else {
 			s.append("<div class='cancel'>-</div>");
 		}
