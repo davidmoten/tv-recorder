@@ -2,6 +2,7 @@ package com.github.davidmoten.tv.rs;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,7 +26,7 @@ public class GuideResource {
 	@Path("search")
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<Programme> search(){
-		return new TvGuide().get().getProgramme().subList(0, 5);
+		return new TvGuide().get().getProgramme().stream().limit(5).collect(Collectors.toList());
 	}
 
 }
