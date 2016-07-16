@@ -28,6 +28,7 @@ public class GuideResource {
 	@Path("search")
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<Programme> search(@QueryParam("q") String query){
+		System.out.println(query);
 		return new TvGuide().search(query).collect(Collectors.toList());
 	}
 
