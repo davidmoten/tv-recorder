@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.github.davidmoten.tv.TvGuide;
@@ -14,6 +15,7 @@ import com.github.davidmoten.xmltv.Programme;
 
 @Path("/guide")
 public class GuideResource {
+	
 
 	@GET
 	@Path("ping")
@@ -25,8 +27,8 @@ public class GuideResource {
 	@GET
 	@Path("search")
 	@Produces({MediaType.APPLICATION_JSON})
-	public List<Programme> search(){
-		return new TvGuide().get().getProgramme().stream().limit(5).collect(Collectors.toList());
+	public List<Programme> search(@QueryParam("q") String query){
+		return new TvGuide().search(query).collect(Collectors.toList());
 	}
 
 }
