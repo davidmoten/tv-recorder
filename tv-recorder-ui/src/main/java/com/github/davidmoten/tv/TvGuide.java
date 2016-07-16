@@ -27,7 +27,7 @@ public class TvGuide {
 		return tv();
 	}
 
-	private static Tv tv() {
+	public static Tv tv() {
 		try {
 			final JAXBContext context = JAXBContext.newInstance(Tv.class);
 			final Unmarshaller u = context.createUnmarshaller();
